@@ -1,8 +1,8 @@
 const express = require('express');
 const http = require('http');
-const cors = require('cors');
-const helmet = require('helmet');
-const { Server } = require('socket.io');
+const cors = require('cors');//protects API calls
+const helmet = require('helmet');//security headers
+const { Server } = require('socket.io');//for chat function
 
 const env = require('./config/env');
 
@@ -19,8 +19,8 @@ app.use(helmet());
 app.use(cors({ origin: env.clientUrl }));
 app.use(express.json());
 
-//First Route for testing
-app.get('/api/health', (req, res) => {
+//Route for testing
+app.get('/api/statusCheck', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// Boot
+// Boot needed to allow Socket.IO
 httpServer.listen(env.port, () => {
   console.log(`Server running on http://localhost:${env.port}`);
   console.log(`Environment: ${env.nodeEnv}`);

@@ -1,0 +1,10 @@
+type PropertyCard = {
+  title: string;
+  pricePcm: number;
+  address: string;
+  bedrooms?: number;
+  hasEnsuite?: boolean;
+  hasParking?: boolean;
+  hasOutdoorSpace?: boolean;
+  imageUrl?: string;
+};

@@ -12,11 +12,11 @@ function MainBar() {
           <img
             src="/logo.png"
             alt="Rent-a-Room logo"
-            height="70vw"
-            className="me-2"
+            height="100vw"
+            className="me-4"
           />
         </Navbar.Brand>
-         <Nav className="ms-auto fs-5 gap-1">
+         <Nav className="me-auto">
       <Nav.Link as={Link} to="/properties">
             Properties for Rent
           </Nav.Link>
@@ -29,8 +29,11 @@ function MainBar() {
            <Nav.Link as={Link} to="/chats">
             Your Chats
           </Nav.Link>
-          <Nav.Link as={Link} to="/account">
-            Account
+          <Nav.Link as={Link} to="/dashboard">
+            Your Dashboard
+          </Nav.Link>
+           <Nav.Link as={Link} to="/register">
+            Register
           </Nav.Link>
         </Nav>
       </Container>

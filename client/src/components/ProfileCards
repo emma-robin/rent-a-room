@@ -1,0 +1,9 @@
+type ProfileCard = {
+  name: string;
+  bio: string;
+  budgetMin: number;
+  budgetMax: number;
+  moveInDate:Date;
+tags:string;
+ photoUrl?: string;
+};

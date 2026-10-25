@@ -12,9 +12,15 @@ body {
   --bs-navbar-brand-color: #ffffff;
   --bs-navbar-brand-hover-color: #d6e9ff;
 }
+#homepageContainer{
+ background:  #4CA5E2!important;
+ border-radius: 10px;
+}
+
 
 .navbar {
   background: linear-gradient(70deg, #4CA5E2,#1F3080,#1F3080)!important;
   border-bottom:2px solid #1F3080;
   font-weight: 600;
+ 
 }

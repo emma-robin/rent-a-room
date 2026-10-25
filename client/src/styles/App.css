@@ -1,15 +1,20 @@
+body {
+  margin: 0;
+  font-family:Copperplate, sans-serif ;
+}
 [data-bs-theme="rent-a-room"] {
-  --bs-body-bg: #4A90E2;
+  --bs-body-bg: #4CA5E2;
   --bs-body-bg-rgb: 74, 144, 226;
   --bs-body-color: #ffffff;
   --bs-body-color-rgb: 255, 255, 255;
   --bs-navbar-color: #ffffff;
-  --bs-navbar-hover-color: #d6e9ff;
-  --bs-navbar-active-color: #ffffff;
+  --bs-navbar-hover-color: #FFFF00;
   --bs-navbar-brand-color: #ffffff;
   --bs-navbar-brand-hover-color: #d6e9ff;
 }
 
-.navbar[data-bs-theme="rent-a-room"] {
-  background-color: #4A90E2 !important;
+.navbar {
+  background: linear-gradient(70deg, #4CA5E2,#1F3080,#1F3080)!important;
+  border-bottom:2px solid #1F3080;
+  font-weight: 600;
 }

@@ -1,60 +1,32 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainBar from './components/navbar';
+import Home from './pages/Homepage';
+import Properties from './pages/Properties';
+import SharedHomes from './pages/SharedHomes';
+import Housemates from './pages/Housemates';
+import Chats from './pages/Chats';
+import Account from './pages/Dashboard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card,Button } from 'react-bootstrap';
 
-type StatusCheck={
-status:string;
-timestamp:string;
-}
-
-
-export default function App() {
-  const [Status, setStatus] = useState<StatusCheck | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const checkBackend = () => {
-    setLoading(true);
-    setError(null);
-    setStatus(null);
-
-    axios
-      .get<StatusCheck>('/api/statusCheck')
-      .then((res) => setStatus(res.data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    checkBackend();
-  }, []);
-
+function App() {
   return (
-      <Card >
-        <Card.Body>
-          {loading && (
-              <h1 >Looking for the server</h1>
-          )}
-
-          {!loading && Status && (
-           <h1> Found Backend
-                <br />
-              <code>status: {Status.status}</code>
-              <br />
-              <code>timestamp: {Status.timestamp}</code>
-          </h1>
-          )}
-
-          {!loading && error && (
-           <h1> Backend not reachable
-              <br />
-              <code>{error}</code></h1>
-          )}
-
-          <Button  onClick={checkBackend}>
-            Check again
-          </Button>
-        </Card.Body>
-      </Card>
+    <BrowserRouter>
+      <MainBar />
+      <main className="container py-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/properties" element={<Properties />} />
+          <Route path="/shared-homes" element={<SharedHomes />} />
+          <Route path="/housemates" element={<Housemates />} />
+          <Route path="/chats" element={<Chats />} />
+          <Route path="/account" element={<Account />} />
+        </Routes>
+        </main>
+        </BrowserRouter>
   );
 }
+
+export default App;
+

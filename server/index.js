@@ -1,10 +1,11 @@
 const express = require('express');
 const http = require('http');
+const pool = require('./config/db');//for the database
 const cors = require('cors');//protects API calls
 const helmet = require('helmet');//security headers
 const { Server } = require('socket.io');//for chat function
-
 const env = require('./config/env');
+
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -22,6 +23,20 @@ app.use(express.json());
 //Route for testing
 app.get('/api/statusCheck', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Just to database works
+app.get('/api/db-test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({ 
+      status: 'success', 
+      database_time: result.rows[0].now 
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
 });
 
 // Just to check Socket.IO works

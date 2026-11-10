@@ -1,0 +1,97 @@
+{
+  "users": [
+    { "email": "marieh@gmail.com", "username": "MarieH", "type": "propertyholder" },
+    { "email": "LisburnRd@outlook.co.uk", "username": "LisburnRdHouse", "type": "household" },
+    { "email": "Stranmillis@outlook.co.uk", "username": "StrandHouse", "type": "household" },
+    { "email": "johndoe@hotmail.com", "username": "johndoe", "type": "individual" },
+    { "email": "susiew@gmail.com", "username": "susie_wilson", "type": "individual" }
+  ],
+  "listings": [
+    {
+      "owner_username": "MarieH",
+      "type": "propertyholder_property",
+      "title": "Bright 2-bed flat",
+      "description": "Modern flat with great natural light.",
+      "price": 850.00,
+      "address": "45 Ormeau Road, Belfast",
+      "lat": 54.586700,
+      "lng": -5.928200,
+      "move_in_date": "2027-05-01",
+      "bedrooms": 2,
+      "en_suite": true,
+      "parking": true,
+      "outdoor_space": false,
+      "kitchen_size": "medium",
+      "house_rules": null
+    },
+      {
+      "owner_username": "LisburnRdHouse",
+      "type": "household_room",
+      "title": "Cosy room in friendly flatshare",
+      "description": "Room available in a relaxed shared house. Bills split evenly.",
+      "price": 480.00,
+      "address": "12 Lisburn Road, Belfast",
+      "lat": 54.583800,
+      "lng": -5.935200,
+      "move_in_date": "2027-05-01",
+      "bedrooms": 3,
+      "en_suite": false,
+      "parking": true,
+      "outdoor_space": false,
+      "kitchen_size": "large",
+      "house_rules": "No smoking indoors. Guests welcome with notice. Cleanliness expected: moderate."
+    },
+  {
+      "owner_username": "StrandHouse",
+      "type": "household_room",
+      "title": "Spacious room with en-suite",
+      "description": "Large room with private bathroom in a lively house.",
+      "price": 550.00,
+      "address": "8 Stranmillis Road, Belfast",
+      "lat": 54.579200,
+      "lng": -5.932100,
+      "move_in_date": "2027-06-01",
+      "bedrooms": 4,
+      "en_suite": true,
+      "parking": false,
+      "outdoor_space": true,
+      "kitchen_size": "small",
+      "house_rules": "Non-smokers preferred. Cats live here. Quiet weekday evenings."
+    }
+  ],
+        
+ "profiles": [
+    {
+
+         "user_id":"johndoe",
+         "bio":"28, work nights in healthcare, quiet, tidy.",
+         "budget_min":300.00, 
+         "budget_max":500.00, 
+         "move_in_date":"2027-05-01",
+          "shift_pattern":"standard weekdays",
+          "has_car":false,
+         "looking_for":"room"
+    },
+     {
+
+         "user_id":"susie_wilson",
+         "bio":"PhD student, tidy, loves dogs.",
+         "budget_min":450.00, 
+         "budget_max":600.00, 
+         "move_in_date":"2027-06-01",
+          "shift_pattern":"standard weekdays",
+          "has_car":true,
+         "looking_for":"room"
+    }
+  ],
+"tagLabels" :[
+      "non-smoker",
+       "pet-owner", 
+       "tidy",
+        "quiet",
+      "has-car", 
+      "night-shift", 
+      "outdoor-space", "en-suite",
+      "enjoys-parties"
+    ]
+  }

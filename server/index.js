@@ -39,6 +39,18 @@ app.get('/api/db-test', async (req, res) => {
   }
 });
 
+//api for listings 
+app.get('/api/listings', async (req, res) => {
+  try {
+    const listings = await pool.query(
+    "SELECT listings.*, users.username FROM listings JOIN users ON users.id = listings.user_id;");
+
+   res.json({ status: 'success', data: listings.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
+});
 // Just to check Socket.IO works
 io.on('connection', (socket) => {
   console.log(`[socket] connected: ${socket.id}`);

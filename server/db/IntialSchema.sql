@@ -11,6 +11,7 @@ CREATE TABLE users (
 
 
 CREATE TYPE listing_type AS ENUM ('propertyholder_property', 'household_room');
+CREATE TYPE listing_type AS ENUM ('small', 'medium', 'large');
 
 CREATE TABLE listings (
     id              SERIAL PRIMARY KEY,
@@ -27,8 +28,8 @@ CREATE TABLE listings (
     en_suite        BOOLEAN DEFAULT FALSE,
     parking         BOOLEAN DEFAULT FALSE,
     outdoor_space   BOOLEAN DEFAULT FALSE,
-    kitchen_size    VARCHAR(50),                     -- e.g. 'small', 'medium', 'large'
-    house_rules     TEXT,                            -- guests, bills, cleanliness (household_room only)
+    kitchen_size    kitchen_size NOT NULL,
+    house_rules     TEXT,                            -- guests, bills, cleanliness
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -37,6 +38,8 @@ CREATE INDEX idx_listings_price ON listings(price_pcm);
 CREATE INDEX idx_listings_location ON listings(latitude, longitude);
 CREATE INDEX idx_listings_user ON listings(user_id);
 
+CREATE TYPE shift_pattern AS ENUM ('standard 9-5', 'nightshift only', 'rotating shifts','early shift', 'late shift','flexible' );
+CREATE TYPE looking_for AS ENUM ('room', 'person');
 
 CREATE TABLE profiles (
     id              SERIAL PRIMARY KEY,
@@ -45,9 +48,9 @@ CREATE TABLE profiles (
     budget_min      NUMERIC(8,2),
     budget_max      NUMERIC(8,2),
     move_in_date    DATE,
-    shift_pattern   VARCHAR(100),                    -- e.g. 'nights 3x/week'
+    shift_pattern   shift_pattern,
     has_car         BOOLEAN DEFAULT TRUE,
-    looking_for     VARCHAR(50),                      -- 'room' or 'group'
+    looking_for     looking_for NOT NULL,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -78,7 +81,7 @@ CREATE TYPE photo_owner_type AS ENUM ('listing', 'profile');
 CREATE TABLE photos (
     id          SERIAL PRIMARY KEY,
     owner_type  photo_owner_type NOT NULL,
-    owner_id    INTEGER NOT NULL,          -- references listings.id or profiles.id, depending on owner_type
+    owner_id    INTEGER NOT NULL,
     url         VARCHAR(500) NOT NULL,
     is_primary  BOOLEAN DEFAULT FALSE,
     uploaded_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -89,7 +92,7 @@ CREATE INDEX idx_photos_owner ON photos(owner_type, owner_id);
 
 CREATE TABLE chats (
     id                  SERIAL PRIMARY KEY,
-    name                VARCHAR(255),                 -- e.g. "Ormeau Rd Flatshare"; null for plain 1:1 chats
+    chat_name                VARCHAR(255),
     max_members         SMALLINT NOT NULL DEFAULT 8,
     origin_listing_id   INTEGER REFERENCES listings(id) ON DELETE SET NULL,
     origin_profile_id   INTEGER REFERENCES profiles(id) ON DELETE SET NULL,

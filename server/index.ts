@@ -63,6 +63,37 @@ app.get('/api/listings', async (request:Request, response: Response) => {
       conditions.push(`listings.bedrooms = $${values.length}`);
     }
 
+    
+    //en-suite
+if (request.query.enSuite === 'true') {
+  conditions.push(`listings.en_suite = TRUE`);
+} else if (request.query.enSuite === 'false') {
+  conditions.push(`listings.en_suite = FALSE`);
+}
+//move-in date
+    if (request.query.moveInDate) {
+      values.push(request.query.moveInDate);
+       conditions.push(`listings.move_in_date <= $${values.length}`);
+    }
+
+    //kitchen size
+    if (request.query.kitchenSize) {
+      values.push(request.query.kitchenSize);
+      conditions.push(`listings.kitchen_size = $${values.length}`);
+    }
+
+  //title
+    if (request.query.title) {
+  values.push(`%${request.query.title}%`);
+  conditions.push(`listings.title ILIKE $${values.length}`);
+}
+
+    //description
+    if (request.query.description) {
+  values.push(`%${request.query.description}%`);
+  conditions.push(`listings.description ILIKE $${values.length}`);
+}
+
     //SQL
     const sql = `
       SELECT listings.*, users.username FROM listings JOIN users ON users.id = listings.user_id WHERE ${conditions.join(' AND ')}
@@ -102,9 +133,48 @@ app.get('/api/sharedhomes', async (request:Request, response: Response) => {
       conditions.push(`listings.bedrooms = $${values.length}`);
     }
 
+    //en-suite
+if (request.query.enSuite === 'true') {
+  conditions.push(`listings.en_suite = TRUE`);
+} else if (request.query.enSuite === 'false') {
+  conditions.push(`listings.en_suite = FALSE`);
+}
+
+//move-in date
+    if (request.query.moveInDate) {
+      values.push(request.query.moveInDate);
+       conditions.push(`listings.move_in_date <= $${values.length}`);
+    }
+
+      //kitchen size
+    if (request.query.kitchenSize) {
+      values.push(request.query.kitchenSize);
+      conditions.push(`listings.kitchen_size = $${values.length}`);
+    }
+    //bio
+    if (request.query.profileBio) {
+  values.push(`%${request.query.profileBio}%`);
+  conditions.push(`profiles.bio ILIKE $${values.length}`);
+}
+
+  //title
+    if (request.query.title) {
+  values.push(`%${request.query.title}%`);
+  conditions.push(`listings.title ILIKE $${values.length}`);
+}
+
+    //description
+    if (request.query.description) {
+  values.push(`%${request.query.description}%`);
+  conditions.push(`listings.description ILIKE $${values.length}`);
+}
+
     //SQL
     const sql = `
-      SELECT listings.*, users.username FROM listings JOIN users ON users.id = listings.user_id WHERE ${conditions.join(' AND ')}
+    SELECT listings.*, users.username, profiles.bio, profiles.budget_min, profiles.budget_max FROM listings
+JOIN users ON users.id = listings.user_id
+LEFT JOIN profiles ON profiles.user_id = users.id
+      WHERE ${conditions.join(' AND ')}
     `;
 
     const listings = await pool.query(sql, values);
@@ -122,22 +192,58 @@ app.get('/api/housemates', async (request:Request, response: Response) => {
     const values: any[] = [];
 
 
-    // Max Price
-    if (request.query.maxPrice) {
-      values.push(request.query.maxPrice);
-      conditions.push(`listings.price_pcm <= $${values.length}`);
+    // Max budget
+    if (request.query.maxBudget) {
+      values.push(request.query.maxBudget);
+      conditions.push(`profiles.budget_max <= $${values.length}`);
     }
 
-    // Min Price
-    if (request.query.minPrice) {
-      values.push(request.query.minPrice);
-      conditions.push(`listings.price_pcm >= $${values.length}`);
+    // Min Budget
+    if (request.query.minBudget) {
+      values.push(request.query.minBudget);
+      conditions.push(`profiles.budget_min >= $${values.length}`);
     }
 
-    //SQL
-    const sql = `
-     "SELECT profiles.*, users.username FROM profiles JOIN users ON users.id = profiles.user_id;" WHERE ${conditions.join(' AND ')}
-    `;
+    //Shift pattern
+      if (request.query.shiftPattern) {
+      values.push(request.query.shiftPattern);
+      conditions.push(`profiles.shift_pattern = $${values.length}`);
+    }
+  //Looking for
+      if (request.query.lookingFor) {
+      values.push(request.query.lookingFor);
+      conditions.push(`profiles.looking_for = $${values.length}`);
+    }
+
+ //Has car
+if (request.query.hasCar === 'true') {
+  conditions.push(`profiles.has_car = TRUE`);
+}
+if (request.query.hasCar === 'false') {
+  conditions.push(`profiles.has_car = FALSE`);
+}
+//move-in date
+    if (request.query.moveInDate) {
+      values.push(request.query.moveInDate);
+      conditions.push(`profiles.move_in_date <= $${values.length}`);
+    }
+
+    //bio
+    if (request.query.profileBio) {
+  values.push(`%${request.query.profileBio}%`);
+  conditions.push(`profiles.bio ILIKE $${values.length}`);
+}
+
+    //SQL needed to add where seperate as no standard listing_type
+
+const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+const sql = `
+  SELECT profiles.*, users.username 
+  FROM profiles 
+  JOIN users ON users.id = profiles.user_id
+  ${where}
+`;
 
     const listings = await pool.query(sql, values);
     response.json({ status: 'success', data: listings.rows });

@@ -44,7 +44,7 @@
   {
       "owner_username": "StrandHouse",
       "type": "household_room",
-      "title": "Spacious room with en-suite",
+      "title": "Large room with en-suite",
       "description": "Large room with private bathroom in a lively house.",
       "price": 550.00,
       "address": "8 Stranmillis Road, Belfast",
@@ -64,34 +64,54 @@
     {
 
          "user_id":"johndoe",
-         "bio":"28, work nights in healthcare, quiet, tidy.",
+         "bio":"24, work nights in healthcare, quiet, tidy.",
          "budget_min":300.00, 
          "budget_max":500.00, 
          "move_in_date":"2027-05-01",
-          "shift_pattern":"standard weekdays",
+          "shift_pattern":"standard 9-5",
           "has_car":false,
          "looking_for":"room"
     },
      {
 
          "user_id":"susie_wilson",
-         "bio":"PhD student, tidy, loves dogs.",
+         "bio":"PhD student, enjoys a healthy social life.",
          "budget_min":450.00, 
          "budget_max":600.00, 
          "move_in_date":"2027-06-01",
-          "shift_pattern":"standard weekdays",
+          "shift_pattern":"standard 9-5",
           "has_car":true,
          "looking_for":"room"
+    },
+        {
+
+         "user_id":"LisburnRdHouse",
+         "bio":"Friendly house made up of young male professionals between 22-25. Mixed gender looking for someone who enjoys board games and quiet nights in",
+         "move_in_date":"2027-06-01",
+          "shift_pattern":"standard 9-5",
+          "has_car":true,
+         "looking_for":"person"
+    },
+      {
+
+         "user_id":"StrandHouse",
+         "bio":"A mixed gender all PHD students at QUB and UU looking to rent out one room due to old flatmate deferring for the year. Looking someone who doesn't mind hosting afters",
+         "move_in_date":"2027-06-01",
+          "shift_pattern":"flexible",
+          "has_car":true,
+         "looking_for":"person"
     }
   ],
-"tagLabels" :[
-      "non-smoker",
-       "pet-owner", 
-       "tidy",
-        "quiet",
-      "has-car", 
-      "night-shift", 
-      "outdoor-space", "en-suite",
-      "enjoys-parties"
-    ]
+"listingTags": [
+  { "listing_title": "Bright 2-bed flat",               "tags": ["en-suite", "parking-available", "outdoor-space"] },
+  { "listing_title": "Cosy room in friendly flatshare", "tags": ["quiet", "non-smoker"] },
+  { "listing_title": "Large room with en-suite",        "tags": ["en-suite", "enjoys-parties", "outdoor-space"] }
+],
+   
+"profileTags": [
+  { "username": "johndoe",          "tags": ["non-smoker", "night-shift", "quiet"] },
+  { "username": "susie_wilson",     "tags": ["highly-social", "non-smoker", "tidy"] },
+  { "username": "LisburnRdHouse",   "tags": ["tidy", "quiet", "non-smoker"] },
+  { "username": "StrandHouse",      "tags": ["enjoys-parties", "tidy"] }
+]
   }

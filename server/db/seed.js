@@ -98,53 +98,77 @@ const usersResult = {};
       profilesResult.push(result.rows[0].id);
     }
     console.log('Inserted profiles');
-    // tags list
-   
+    
+    
+    // tags list which is fed listing and profile tags
+  const allTagLabels = new Set();
+  for (const pair of data.listingTags) {
+    for (const label of pair.tags) allTagLabels.add(label);
+  }
+  for (const pair of data.profileTags) {
+    for (const label of pair.tags) allTagLabels.add(label);
+  }
+
+  const tagsResult = await client.query(
+    `INSERT INTO tags (label)
+     SELECT unnest($1::text[])
+     RETURNING id, label;`,
+    [Array.from(allTagLabels)]
+  );
+  const tagId = Object.fromEntries(tagsResult.rows.map(t => [t.label, t.id]));
+  console.log('Inserted tags');
+
+// Link tags to listings 
+let listingTagCount = 0;
+const listingIdByTitle = {};  
+for (const pair of data.listingTags) {
+  const listingId = listingIdByTitle[pair.listing_title];
   
-      const tagsResult = await client.query(
-      `INSERT INTO tags (label)
-       SELECT unnest($1::text[])
-       RETURNING id, label;`,
-      [data.tagLabels]
+  if (!listingId) {
+    console.warn(`No listing found for title: ${pair.listing_title}`);
+    continue;
+  }
+  
+  for (const label of pair.tags) {
+    const tId = tagId[label];
+    if (!tId) {
+      console.warn(`Unknown tag: ${label}`);
+      continue;
+    }
+    await client.query(
+      'INSERT INTO listing_tags (listing_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING;',
+      [listingId, tId]
     );
-    const tagId = Object.fromEntries(tagsResult.rows.map(t => [t.label, t.id]));
-    console.log('Inserted tags');
+    listingTagCount++;
+  }
+}
+console.log(`Linked ${listingTagCount} listing tags`);
+
+// Link tags to profiles
+let profileTagCount = 0;
+for (const pair of data.profileTags) {
+  const profileIndex = data.profiles.findIndex(p => p.user_id === pair.username);
+  const profileId = profilesResult[profileIndex];
   
-
-    // Link tags to listings
-    const listingTagPairs = [
-      [listingsResult[0], tagId['en-suite']],
-      [listingsResult[0], tagId['outdoor-space']],
-      [listingsResult[1], tagId['quiet']],
-      [listingsResult[1], tagId['non-smoker']],
-      [listingsResult[2], tagId['en-suite']],
-      [listingsResult[2], tagId['non-smoker']],
-      [listingsResult[2], tagId['outdoor-space']],
-    ];
-    for (const [listingsResult, tId] of listingTagPairs) {
-      await client.query(
-        'INSERT INTO listing_tags (listing_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING;',
-        [listingsResult, tId]
-      );
+  if (!profileId) {
+    console.warn(`No profile found for username: ${pair.username}`);
+    continue;
+  }
+  
+  for (const label of pair.tags) {
+    const tId = tagId[label];
+    if (!tId) {
+      console.warn(`Unknown tag: ${label}`);
+      continue;
     }
-    console.log(`Linked ${listingTagPairs.length} listing tags`);
-
-    // Link tags to profiles
-    const profileTagPairs = [
-      [profilesResult[0], tagId['non-smoker']],
-      [profilesResult[0], tagId['night-shift']],
-      [profilesResult[0], tagId['quiet']],
-      [profilesResult[1], tagId['pet-owner']],
-      [profilesResult[1], tagId['non-smoker']],
-      [profilesResult[1], tagId['tidy']],
-    ];
-    for (const [profileId, tId] of profileTagPairs) {
-      await client.query(
-        'INSERT INTO profile_tags (profile_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING;',
-        [profileId, tId]
-      );
-    }
-    console.log(`Linked ${profileTagPairs.length} profile tags`);
+    await client.query(
+      'INSERT INTO profile_tags (profile_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING;',
+      [profileId, tId]
+    );
+    profileTagCount++;
+  }
+}
+console.log(`Linked ${profileTagCount} profile tags`);
 
     console.log('Seed complete');
 

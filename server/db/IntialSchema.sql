@@ -11,12 +11,13 @@ CREATE TABLE users (
 
 
 CREATE TYPE listing_type AS ENUM ('propertyholder_property', 'household_room');
-CREATE TYPE listing_type AS ENUM ('small', 'medium', 'large');
+CREATE TYPE contract_type AS ENUM ('rolling_monthly', 'fixed_term_six_months', 'fixed_term_twelve_months', 'short_let');
 
 CREATE TABLE listings (
     id              SERIAL PRIMARY KEY,
     user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     listing_type    listing_type NOT NULL,
+    contract_type   contract_type NOT NULL,
     title           VARCHAR(255) NOT NULL,
     description     TEXT,
     price_pcm       NUMERIC(8,2) NOT NULL,          -- price per calendar month
@@ -24,14 +25,26 @@ CREATE TABLE listings (
     latitude        NUMERIC(9,6),                    -- for map search / radius filtering
     longitude       NUMERIC(9,6),
     move_in_date    DATE,
-    bedrooms        SMALLINT,
+    move_out_date    DATE,
+    bedrooms         SMALLINT,
     en_suite        BOOLEAN DEFAULT FALSE,
     parking         BOOLEAN DEFAULT FALSE,
     outdoor_space   BOOLEAN DEFAULT FALSE,
-    kitchen_size    kitchen_size NOT NULL,
+    kitchen_length_m NUMERIC(6, 3),
+    kitchen_width_m  NUMERIC(6, 3),
+    bedroom_length_m NUMERIC(6, 3),
+    bedroom_width_m  NUMERIC(6, 3),
     house_rules     TEXT,                            -- guests, bills, cleanliness
+    accepts_pets    BOOLEAN DEFAULT FALSE,
+    accepts_benefits BOOLEAN DEFAULT FALSE,
+    legislation_declared BOOLEAN DEFAULT FALSE,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT valid_date_range CHECK (
+        move_in_date IS NULL
+        OR move_out_date IS NULL
+        OR move_out_date > move_in_date
+    )
 );
 
 CREATE INDEX idx_listings_price ON listings(price_pcm);

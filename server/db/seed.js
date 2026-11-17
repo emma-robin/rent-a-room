@@ -47,16 +47,19 @@ const usersResult = {};
 
     // listings list
     const listingsResult =[];
+    const listingIdByTitle = {}; 
         for (const listing of data.listings) {
       const result = await client.query(
       `INSERT INTO listings (
-           user_id, listing_type, title, description, price_pcm, address,
-           latitude, longitude, move_in_date, bedrooms,
-           en_suite, parking, outdoor_space, kitchen_size, house_rules
-         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id`,
+           user_id, listing_type, contract_type, title, description, price_pcm, address,
+           latitude, longitude, move_in_date, move_out_date, bedrooms,
+           en_suite, parking, outdoor_space, kitchen_length_m, kitchen_width_m, bedroom_length_m,
+            bedroom_width_m, house_rules,accepts_pets, accepts_benefits, legislation_declared
+         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23) RETURNING id`,
         [
           usersResult[listing.owner_username],
-          listing.type,
+          listing.listing_type,
+          listing.contract_type,
           listing.title,
           listing.description,
           listing.price,
@@ -64,15 +67,23 @@ const usersResult = {};
           listing.lat,
           listing.lng,
           listing.move_in_date,
+          listing.move_out_date,
           listing.bedrooms,
           listing.en_suite,
           listing.parking,
           listing.outdoor_space,
-          listing.kitchen_size,
-          listing.house_rules
+          listing.kitchen_length_m,
+          listing.kitchen_width_m,
+          listing.bedroom_length_m,
+          listing.bedroom_width_m,
+          listing.house_rules,
+          listing.accepts_pets,
+          listing.accepts_benefits,
+          listing.legislation_declared,
         ]
-      );
+         );
       listingsResult.push(result.rows[0].id);
+      listingIdByTitle[listing.title] = result.rows[0].id; 
     }
     console.log('Inserted listings:');
 
@@ -120,9 +131,10 @@ const usersResult = {};
 
 // Link tags to listings 
 let listingTagCount = 0;
-const listingIdByTitle = {};  
-for (const pair of data.listingTags) {
+
+  for (const pair of data.listingTags) {
   const listingId = listingIdByTitle[pair.listing_title];
+
   
   if (!listingId) {
     console.warn(`No listing found for title: ${pair.listing_title}`);

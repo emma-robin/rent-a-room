@@ -76,11 +76,6 @@ if (request.query.enSuite === 'true') {
        conditions.push(`listings.move_in_date <= $${values.length}`);
     }
 
-    //kitchen size
-    if (request.query.kitchenSize) {
-      values.push(request.query.kitchenSize);
-      conditions.push(`listings.kitchen_size = $${values.length}`);
-    }
 
   //title
     if (request.query.title) {
@@ -95,9 +90,17 @@ if (request.query.enSuite === 'true') {
 }
 
     //SQL
+  
     const sql = `
-      SELECT listings.*, users.username FROM listings JOIN users ON users.id = listings.user_id WHERE ${conditions.join(' AND ')}
-    `;
+  SELECT listings.*, users.username,
+    COALESCE(array_agg(DISTINCT tags.label) FILTER (WHERE tags.label IS NOT NULL), '{}') AS tags
+  FROM listings 
+  JOIN users ON users.id = listings.user_id 
+  LEFT JOIN listing_tags ON listing_tags.listing_id = listings.id
+  LEFT JOIN tags ON tags.id = listing_tags.tag_id
+  WHERE ${conditions.join(' AND ')}
+  GROUP BY listings.id, users.username
+`;
 
     const listings = await pool.query(sql, values);
     response.json({ status: 'success', data: listings.rows });
@@ -146,11 +149,6 @@ if (request.query.enSuite === 'true') {
        conditions.push(`listings.move_in_date <= $${values.length}`);
     }
 
-      //kitchen size
-    if (request.query.kitchenSize) {
-      values.push(request.query.kitchenSize);
-      conditions.push(`listings.kitchen_size = $${values.length}`);
-    }
     //bio
     if (request.query.profileBio) {
   values.push(`%${request.query.profileBio}%`);
@@ -170,13 +168,19 @@ if (request.query.enSuite === 'true') {
 }
 
     //SQL
-    const sql = `
-    SELECT listings.*, users.username, profiles.bio, profiles.budget_min, profiles.budget_max FROM listings
-JOIN users ON users.id = listings.user_id
-LEFT JOIN profiles ON profiles.user_id = users.id
-      WHERE ${conditions.join(' AND ')}
-    `;
 
+const sql = `
+  SELECT 
+    listings.*, users.username, profiles.bio, profiles.budget_min, profiles.budget_max,
+    COALESCE(array_agg(DISTINCT tags.label) FILTER (WHERE tags.label IS NOT NULL), '{}') AS tags
+  FROM listings 
+  JOIN users ON users.id = listings.user_id
+  LEFT JOIN profiles ON profiles.user_id = users.id
+  LEFT JOIN listing_tags ON listing_tags.listing_id = listings.id
+  LEFT JOIN tags ON tags.id = listing_tags.tag_id
+  WHERE ${conditions.join(' AND ')}
+  GROUP BY listings.id, users.username, profiles.bio, profiles.budget_min, profiles.budget_max
+`;
     const listings = await pool.query(sql, values);
     response.json({ status: 'success', data: listings.rows });
   } catch (err:any) {
@@ -239,12 +243,16 @@ if (request.query.hasCar === 'false') {
 const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
 const sql = `
-  SELECT profiles.*, users.username 
+  SELECT 
+    profiles.*, users.username,
+    COALESCE(array_agg(DISTINCT tags.label) FILTER (WHERE tags.label IS NOT NULL), '{}') AS tags
   FROM profiles 
   JOIN users ON users.id = profiles.user_id
+  LEFT JOIN profile_tags ON profile_tags.profile_id = profiles.id
+  LEFT JOIN tags ON tags.id = profile_tags.tag_id
   ${where}
+  GROUP BY profiles.id, users.username
 `;
-
     const listings = await pool.query(sql, values);
     response.json({ status: 'success', data: listings.rows });
   } catch (err:any) {

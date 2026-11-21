@@ -2,7 +2,7 @@
   "name": "rent-a-room-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5500",
   "dependencies": {
     "axios": "^1.6.0",
     "bootstrap": "^5.3.2",

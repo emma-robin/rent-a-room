@@ -11,6 +11,7 @@
     "dev:server": "cd server && npm run dev"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "concurrently": "^8.2.2"
   },
   "dependencies": {

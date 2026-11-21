@@ -32,8 +32,8 @@ function MainBar() {
           <Nav.Link as={Link} to="/dashboard">
             Your Dashboard
           </Nav.Link>
-           <Nav.Link as={Link} to="/register">
-            Register
+           <Nav.Link as={Link} to="/signup">
+            Sign up/Log In
           </Nav.Link>
         </Nav>
       </Container>

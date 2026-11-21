@@ -89,8 +89,69 @@ if (request.query.enSuite === 'true') {
   conditions.push(`listings.description ILIKE $${values.length}`);
 }
 
+//address
+if (request.query.location) {
+  values.push(`%${request.query.location}%`);
+  conditions.push(`listings.address ILIKE $${values.length}`);
+}
+
+// contract type
+if (request.query.contractType) {
+  values.push(request.query.contractType);
+  conditions.push(`listings.contract_type = $${values.length}`);
+}
+
+//parking
+if (request.query.parking === 'true') {
+  conditions.push(`listings.parking = TRUE`);
+} else if (request.query.parking === 'false') {
+  conditions.push(`listings.parking = FALSE`);
+}
+
+//outdoor space
+if (request.query.outdoorSpace === 'true') {
+  conditions.push(`listings.outdoor_space = TRUE`);
+} else if (request.query.outdoorSpace === 'false') {
+  conditions.push(`listings.outdoorSpace = FALSE`);
+}
+
+// accepts pets
+if (request.query.acceptsPets === 'true') {
+  conditions.push(`listings.accepts_pets = TRUE`);
+} else if (request.query.acceptsPets === 'false') {
+  conditions.push(`listings.acceptsPets = FALSE`);
+}
+
+// accepts benefits
+if (request.query.acceptsBenefits === 'true') {
+  conditions.push(`listings.accepts_benefits = TRUE`);
+} else if (request.query.acceptsBenefits === 'false') {
+  conditions.push(`listings.acceptsBenefits = FALSE`);
+}
+
+// legislation declared
+if (request.query.legislationDeclared === 'true') {
+  conditions.push(`listings.legislation_declared = TRUE`);
+} else if (request.query.legislation_declared === 'false') {
+  conditions.push(`listings.legislation_declared = FALSE`);
+}
+
+  //listing tags
+if (request.query.listingTags) {
+  const tags = String(request.query.listingTags).split(',');
+  values.push(tags);
+  conditions.push(`
+    EXISTS (
+      SELECT 1 FROM listing_tags lt
+      JOIN tags t ON t.id = lt.tag_id
+      WHERE lt.listing_id = listings.id
+      AND t.label = ANY($${values.length})
+    )
+  `);
+}
+
+
     //SQL
-  
     const sql = `
   SELECT listings.*, users.username,
     COALESCE(array_agg(DISTINCT tags.label) FILTER (WHERE tags.label IS NOT NULL), '{}') AS tags
@@ -129,6 +190,12 @@ app.get('/api/sharedhomes', async (request:Request, response: Response) => {
       values.push(request.query.minPrice);
       conditions.push(`listings.price_pcm >= $${values.length}`);
     }
+    
+//address
+if (request.query.location) {
+  values.push(`%${request.query.location}%`);
+  conditions.push(`listings.address ILIKE $${values.length}`);
+}
 
     // Bedrooms
     if (request.query.bedrooms) {
@@ -165,6 +232,76 @@ if (request.query.enSuite === 'true') {
     if (request.query.description) {
   values.push(`%${request.query.description}%`);
   conditions.push(`listings.description ILIKE $${values.length}`);
+}
+
+// contract type
+if (request.query.contractType) {
+  values.push(request.query.contractType);
+  conditions.push(`listings.contract_type = $${values.length}`);
+}
+
+// accepts pets
+if (request.query.acceptsPets === 'true') {
+  conditions.push(`listings.accepts_pets = TRUE`);
+} else if (request.query.acceptsPets === 'false') {
+  conditions.push(`listings.acceptsPets = FALSE`);
+}
+
+
+// accepts benefits
+if (request.query.acceptsBenefits === 'true') {
+  conditions.push(`listings.accepts_benefits = TRUE`);
+} else if (request.query.acceptsBenefits === 'false') {
+  conditions.push(`listings.acceptsBenefits = FALSE`);
+}
+
+// legislation declared
+if (request.query.legislationDeclared === 'true') {
+  conditions.push(`listings.legislation_declared = TRUE`);
+} else if (request.query.legislation_declared === 'false') {
+  conditions.push(`listings.legislation_declared = FALSE`);
+}
+
+//parking
+if (request.query.parking === 'true') {
+  conditions.push(`listings.parking = TRUE`);
+} else if (request.query.parking === 'false') {
+  conditions.push(`listings.parking = FALSE`);
+}
+
+//outdoor space
+if (request.query.outdoorSpace === 'true') {
+  conditions.push(`listings.outdoor_space = TRUE`);
+} else if (request.query.outdoorSpace === 'false') {
+  conditions.push(`listings.outdoorSpace = FALSE`);
+}
+
+//profile tags
+if (request.query.profileTags) {
+  const tags = String(request.query.profileTags).split(',');
+  values.push(tags);
+  conditions.push(`
+    EXISTS (
+      SELECT 1 FROM profile_tags pt
+      JOIN tags t ON t.id = pt.tag_id
+      WHERE pt.profile_id = profiles.id
+      AND t.label = ANY($${values.length})
+    )
+  `);
+}
+
+  //listing tags
+  if (request.query.listingTags) {
+  const tags = String(request.query.listingTags).split(',');
+  values.push(tags);
+  conditions.push(`
+    EXISTS (
+      SELECT 1 FROM listing_tags lt
+      JOIN tags t ON t.id = lt.tag_id
+      WHERE lt.listing_id = listings.id
+      AND t.label = ANY($${values.length})
+    )
+  `);
 }
 
     //SQL
@@ -236,6 +373,20 @@ if (request.query.hasCar === 'false') {
     if (request.query.profileBio) {
   values.push(`%${request.query.profileBio}%`);
   conditions.push(`profiles.bio ILIKE $${values.length}`);
+}
+
+//profile tags
+if (request.query.profileTags) {
+  const tags = String(request.query.profileTags).split(',');
+  values.push(tags);
+  conditions.push(`
+    EXISTS (
+      SELECT 1 FROM profile_tags pt
+      JOIN tags t ON t.id = pt.tag_id
+      WHERE pt.profile_id = profiles.id
+      AND t.label = ANY($${values.length})
+    )
+  `);
 }
 
     //SQL needed to add where seperate as no standard listing_type

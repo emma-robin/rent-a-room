@@ -75,7 +75,7 @@
       "kitchen_width_m": 2.50,
       "bedroom_length_m": 4.50,
       "bedroom_width_m": 3.65,
-      "accepts_pets" : false,
+      "accepts_pets" : true,
       "accepts_benefits": false,
       "legislation_declared":false,
        "house_rules": "Non-smokers preferred. Cats live here. Quiet weekday evenings."

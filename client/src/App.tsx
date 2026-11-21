@@ -6,7 +6,7 @@ import SharedHomes from './pages/SharedHomes';
 import Housemates from './pages/Housemates';
 import Chats from './pages/Chats';
 import Account from './pages/Dashboard';
-import Register from './pages/Register';
+import Register from './pages/SignUp';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card,Button } from 'react-bootstrap';

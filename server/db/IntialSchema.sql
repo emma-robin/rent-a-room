@@ -51,7 +51,7 @@ CREATE INDEX idx_listings_price ON listings(price_pcm);
 CREATE INDEX idx_listings_location ON listings(latitude, longitude);
 CREATE INDEX idx_listings_user ON listings(user_id);
 
-CREATE TYPE shift_pattern AS ENUM ('standard 9-5', 'nightshift only', 'rotating shifts','early shift', 'late shift','flexible' );
+CREATE TYPE shift_pattern AS ENUM ('standard_shift', 'nightshift_only', 'rotating_shifts','early_shift', 'late_shift','flexible' );
 CREATE TYPE looking_for AS ENUM ('room', 'person');
 
 CREATE TABLE profiles (

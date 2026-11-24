@@ -1,14 +1,14 @@
 {
   "users": [
-    { "email": "marieh@gmail.com", "username": "MarieH", "type": "propertyholder" },
-    { "email": "LisburnRd@outlook.co.uk", "username": "LisburnRdHouse", "type": "household" },
-    { "email": "Stranmillis@outlook.co.uk", "username": "StrandHouse", "type": "household" },
-    { "email": "johndoe@hotmail.com", "username": "johndoe", "type": "individual" },
-    { "email": "susiew@gmail.com", "username": "susie_wilson", "type": "individual" }
+    { "email": "marieh@gmail.com", "username": "Marie Hall", "type": "propertyholder" },
+    { "email": "LisburnRd@outlook.co.uk", "username": "Lisburn Road House", "type": "household" },
+    { "email": "Stranmillis@outlook.co.uk", "username": "Stranmillis House", "type": "household" },
+    { "email": "johndoe@hotmail.com", "username": "John", "type": "individual" },
+    { "email": "susiew@gmail.com", "username": "Susie", "type": "individual" }
   ],
   "listings": [
     {
-      "owner_username": "MarieH",
+      "owner_username": "Marie Hall",
       "listing_type": "propertyholder_property",
       "contract_type":"fixed_term_six_months",
       "title": "Bright 2-bed flat",
@@ -31,7 +31,7 @@
       "house_rules": null
     },
       {
-      "owner_username": "LisburnRdHouse",
+      "owner_username": "Lisburn Road House",
       "listing_type": "household_room",
       "contract_type":"fixed_term_twelve_months",
       "title": "Cosy room in friendly flatshare",
@@ -56,7 +56,7 @@
       "house_rules": "No smoking indoors. Guests welcome with notice. Cleanliness expected: moderate."
      },
        {
-      "owner_username": "StrandHouse",
+      "owner_username": "Stranmillis House",
       "listing_type": "household_room",
       "contract_type":"short_let",
        "title": "Large room with en-suite",
@@ -85,7 +85,7 @@
  "profiles": [
     {
 
-         "user_id":"johndoe",
+         "user_id":"John",
          "bio":"24, work nights in healthcare, quiet, tidy.",
          "budget_min":300.00, 
          "budget_max":500.00, 
@@ -96,7 +96,7 @@
     },
      {
 
-         "user_id":"susie_wilson",
+         "user_id":"Susie",
          "bio":"PhD student, enjoys a healthy social life.",
          "budget_min":450.00, 
          "budget_max":600.00, 
@@ -107,7 +107,7 @@
     },
         {
 
-         "user_id":"LisburnRdHouse",
+         "user_id":"Lisburn Road House",
          "bio":"Friendly house made up of young male professionals between 22-25. Mixed gender looking for someone who enjoys board games and quiet nights in",
          "move_in_date":"2027-06-01",
           "shift_pattern":"standard 9-5",
@@ -116,7 +116,7 @@
     },
       {
 
-         "user_id":"StrandHouse",
+         "user_id":"Stranmillis House",
          "bio":"A mixed gender all PHD students at QUB and UU looking to rent out one room due to old flatmate deferring for the year. Looking someone who doesn't mind hosting afters",
          "move_in_date":"2027-06-01",
           "shift_pattern":"flexible",
@@ -131,9 +131,9 @@
 ],
    
 "profileTags": [
-  { "username": "johndoe",          "tags": ["non-smoker", "night-shift", "quiet"] },
-  { "username": "susie_wilson",     "tags": ["highly-social", "non-smoker", "tidy"] },
-  { "username": "LisburnRdHouse",   "tags": ["tidy", "quiet", "non-smoker"] },
-  { "username": "StrandHouse",      "tags": ["enjoys-parties", "tidy"] }
+  { "username": "John",          "tags": ["non-smoker", "has-pets", "quiet"] },
+  { "username": "Susie",     "tags": ["highly-social", "non-smoker", "tidy"] },
+  { "username": "Lisburn Road House",   "tags": ["tidy", "quiet", "non-smoker"] },
+  { "username": "Stranmillis House",      "tags": ["enjoys-parties", "tidy"] }
 ]
   }

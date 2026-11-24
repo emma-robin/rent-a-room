@@ -31,6 +31,7 @@ const TAGLABELS: Record<string, string> = {
      "enjoys-parties": 'Enjoys parties',
      "highly-social": 'Highly social',
       "tidy": 'Tidy',
+      'has-pets':'Pet owner'
 };
 
 export const tagLabels = (value: string): string =>

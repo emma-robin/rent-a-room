@@ -67,7 +67,8 @@ const ListingsResults = () => {
       Listed by {listing.username}
     </Card.Text>
   </Card.Body>
-  <Button variant="outline-primary">View more Details</Button>
+  
+  <Button href={`/listings/${listing.id}`} variant="outline-primary">View more Details</Button>
 </Card>
     </Col>
   ))}

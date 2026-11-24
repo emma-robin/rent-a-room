@@ -19,8 +19,26 @@ body {
 
 
 .navbar {
-  background: linear-gradient(70deg, #4CA5E2,#1F3080,#1F3080)!important;
+  background: linear-gradient(70deg, #4CA5E2,#1F3080)!important;
   border-bottom:2px solid #1F3080;
   font-weight: 600;
  
+}
+
+
+.nav-tabs .nav-link {
+  background-color: #ffffff;
+
+  margin-right: 4px;
+}
+
+
+.nav-tabs .nav-link.active {
+  background-color: #f7fa88;
+  color: #1F3080;
+}
+
+.tab-content {
+  background-color: #ffffff;
+  padding: 1.5rem;
 }

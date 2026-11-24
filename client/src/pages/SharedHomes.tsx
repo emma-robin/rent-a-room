@@ -4,7 +4,7 @@ import { Container, Row, Col, Card, Badge, Button} from 'react-bootstrap';
 import { contractLabel } from '../utils';
 import { tagLabels } from '../utils';
 
-type Listing = {
+type SharedHomes = {
   id: number;
   title: string;
   username: string;
@@ -16,18 +16,24 @@ type Listing = {
   bedrooms: number;
   legislation_declared  : boolean;
   tags: string[];
+  bio: string;
+  budget_min: string;
+  budget_max: string;
+  shift_pattern: string;
+  has_car: boolean;
 };
 
-const ListingsResults = () => {
-  const [listings, setListings] = useState<Listing[]>([]);
+
+const SharedHomesResults = () => {
+  const [SharedHomes, setSharedHomes] = useState<SharedHomes[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     axios
-      .get<{ status: string; data: Listing[] }>('/api/sharedhomes')
+      .get<{ status: string; data: SharedHomes[] }>('/api/sharedhomes')
       .then((response) => {
-        setListings(response.data.data);
+        setSharedHomes(response.data.data);
       })
       .catch((err) => {
         setError(err.message);
@@ -39,35 +45,43 @@ const ListingsResults = () => {
 
   if (loading) return <Container ><h1>Loading</h1></Container>;
   if (error) return <Container>{error}</Container>;
-
-  return (
+return (
      <Container>
       <Row xs={1} md={2} lg={3}>
-        {listings.map((listing) => (
-          <Col key={listing.id}>
+        {SharedHomes.map((SharedHomes) => (
+          <Col key={SharedHomes.id}>
     <Card className="h-100 p-2">
   <Card.Body>
-    <Card.Title className="text-center">{listing.title}</Card.Title>
+
+    <Card.Title className="text-center">{SharedHomes.title}</Card.Title>
     <Card.Subtitle >
-      £{listing.price_pcm} pcm
+      £{SharedHomes.price_pcm} pcm
     </Card.Subtitle>
     <Card.Text>
-      {contractLabel(listing.contract_type)} - {listing.bedrooms} bed
-       <br/> {listing.address}
+      {contractLabel(SharedHomes.contract_type)} - {SharedHomes.bedrooms} bed
+       <br/> {SharedHomes.address}
           </Card.Text>
+         About the household:
+              <Card.Subtitle >
+                {SharedHomes.bio}
+              </Card.Subtitle>
+              <Card.Text>
+              
+                {SharedHomes.shift_pattern}
+                    </Card.Text>
     <div>
-      {listing.tags.map((tag) => (
-        <Badge key={tag} bg="primary" className="m-1" >
-          {tagLabels(tag)}<br/>
+      {SharedHomes.tags.map((tag) => (
+        <Badge key={tag} bg="primary" className='m-1' >
+          {tagLabels(tag)}
 
         </Badge>
       ))}
-    </div>
+    </div><br/>
     <Card.Text className="small text-muted">
-      Listed by {listing.username}
+      Advertised by {SharedHomes.username}
     </Card.Text>
   </Card.Body>
-  <Button variant="outline-primary">View more Details</Button>
+  <Button  href={`/sharedhomes/${SharedHomes.id}`} variant="outline-primary">View more Details</Button>
 </Card>
     </Col>
   ))}
@@ -75,4 +89,4 @@ const ListingsResults = () => {
 </Container>
   )}
 
-export default ListingsResults;
+export default SharedHomesResults;

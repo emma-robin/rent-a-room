@@ -92,12 +92,13 @@ const usersResult = {};
     for (const profile of data.profiles) {
       const result = await client.query(
         `INSERT INTO profiles (
-           user_id, bio, budget_min, budget_max, move_in_date,
+           user_id, bio, gender, budget_min, budget_max, move_in_date,
            shift_pattern, has_car, looking_for
-         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
         [
           usersResult[profile.user_id],
           profile.bio,
+          profile.gender,
           profile.budget_min,
           profile.budget_max,
           profile.move_in_date,

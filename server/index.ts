@@ -134,6 +134,15 @@ if (request.query.listingTags) {
   `);
 }
 
+//searchbox 
+if (request.query.search) {
+  values.push(`%${request.query.search}%`);
+  conditions.push(`(
+    listings.title ILIKE $${values.length}
+    OR listings.description ILIKE $${values.length}
+    OR listings.address ILIKE $${values.length}
+  )`);
+}
 
     //SQL
     const sql = `
@@ -311,6 +320,16 @@ if (request.query.profileTags) {
   `);
 }
 
+//searchbox 
+if (request.query.search) {
+  values.push(`%${request.query.search}%`);
+  conditions.push(`(
+    listings.title ILIKE $${values.length}
+    OR listings.description ILIKE $${values.length}
+    OR listings.address ILIKE $${values.length}
+    OR profiles.bio ILIKE $${values.length}
+  )`);}
+
     //SQL
 
 const sql = `
@@ -407,6 +426,12 @@ if (request.query.hasCar === 'false') {
   conditions.push(`profiles.bio ILIKE $${values.length}`);
 }
 
+//gender 
+if (request.query.gender) {
+  values.push(request.query.gender);
+  conditions.push(`profiles.gender = $${values.length}`);
+}
+
 //profile tags
 if (request.query.profileTags) {
   const tags = String(request.query.profileTags).split(',');
@@ -420,6 +445,14 @@ if (request.query.profileTags) {
     )
   `);
 }
+
+//searchbox 
+if (request.query.search) {
+  values.push(`%${request.query.search}%`);
+  conditions.push(`(
+    users.username ILIKE $${values.length}
+    OR profiles.bio ILIKE $${values.length} 
+  )`); }
 
     //SQL needed to add where seperate as no standard listing_type
 

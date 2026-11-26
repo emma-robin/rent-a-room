@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Badge, Button} from 'react-bootstrap';
 import { tagLabels } from '../utils';
+import { useSearchParams } from 'react-router-dom';
 
 type Housemates = {
   id: number;
@@ -15,23 +16,26 @@ type Housemates = {
 };
 
 const HousemateResults = () => {
+ const [searchParams] = useSearchParams();
+  const searchbox = searchParams.get('search') || '';
 const [housemates, setHousemates] = useState<Housemates[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios
-      .get<{ status: string; data: Housemates[] }>('/api/housemates')
-      .then((response) => {
-        setHousemates(response.data.data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    setLoading(true);
+    const params = new URLSearchParams();
+    if (searchbox) params.append('search', searchbox);
+    const query = params.toString();
+    const url = `/api/housemates${query ? '?' + query : ''}`;
+
+    axios.get<{ status: string; data: Housemates[] }>(url)
+      .then((res) => setHousemates(res.data.data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [searchbox]);
+
+
 
   if (loading) return <Container ><h1>Loading</h1></Container>;
   if (error) return <Container>{error}</Container>;

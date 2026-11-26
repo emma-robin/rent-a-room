@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Row, Col, Card, Badge, Button} from 'react-bootstrap';
 import { contractLabel } from '../utils';
 import { tagLabels } from '../utils';
+import { useSearchParams } from 'react-router-dom';
 
 type SharedHomes = {
   id: number;
@@ -28,20 +29,23 @@ const SharedHomesResults = () => {
   const [SharedHomes, setSharedHomes] = useState<SharedHomes[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+const [searchParams] = useSearchParams();
+  const searchbox = searchParams.get('search') || '';
 
   useEffect(() => {
-    axios
-      .get<{ status: string; data: SharedHomes[] }>('/api/sharedhomes')
-      .then((response) => {
-        setSharedHomes(response.data.data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    setLoading(true);
+    const params = new URLSearchParams();
+    if (searchbox) params.append('search', searchbox);
+    const query = params.toString();
+    const url = `/api/sharedhomes${query ? '?' + query : ''}`;
+
+    axios.get<{ status: string; data: SharedHomes[] }>(url)
+      .then((res) => setSharedHomes(res.data.data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [searchbox]);
+
+
 
   if (loading) return <Container ><h1>Loading</h1></Container>;
   if (error) return <Container>{error}</Container>;

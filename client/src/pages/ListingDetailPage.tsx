@@ -56,7 +56,7 @@ const PropertyDetail = () => {
       <Row >
     <Card className="h-100 p-2">
   <Card.Body>
-      <Button href='/listing' className="m-2" variant="primary" size="sm"> Back to Properties</Button>
+      <Button href='/listings' className="m-2" variant="primary" size="sm"> Back to Properties</Button>
   
     <Card.Title className="text-center">{Listing.title}</Card.Title>
     <Card.Subtitle >
@@ -66,7 +66,7 @@ const PropertyDetail = () => {
       {contractLabel(Listing.contract_type)} - {Listing.bedrooms} bed
        <br/> {Listing.address}
 
-       <br/> {Listing.move_in_date} to {Listing.move_out_date}
+       <br/>{new Date(Listing.move_in_date).toLocaleDateString('en-GB')} to {new Date(Listing.move_out_date).toLocaleDateString('en-GB')} 
        <br/>   {Listing.description} 
            <br/>  
         

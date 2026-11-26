@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Container, Row, Col, Card, Badge, Button} from 'react-bootstrap';
 import { contractLabel } from '../utils';
 import { tagLabels } from '../utils';
+import { useSearchParams } from 'react-router-dom';
+
 
 type Listing = {
   id: number;
@@ -18,24 +20,28 @@ type Listing = {
   tags: string[];
 };
 
+
 const ListingsResults = () => {
+  const [searchParams] = useSearchParams();
+  const searchbox = searchParams.get('search') || '';
+
+
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios
-      .get<{ status: string; data: Listing[] }>('/api/listings')
-      .then((response) => {
-        setListings(response.data.data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    setLoading(true);
+    const params = new URLSearchParams();
+    if (searchbox) params.append('search', searchbox);
+    const query = params.toString();
+    const url = `/api/listings${query ? '?' + query : ''}`;
+
+    axios.get<{ status: string; data: Listing[] }>(url)
+      .then((res) => setListings(res.data.data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [searchbox]);
 
   if (loading) return <Container ><h1>Loading</h1></Container>;
   if (error) return <Container>{error}</Container>;
@@ -54,6 +60,7 @@ const ListingsResults = () => {
     <Card.Text>
       {contractLabel(listing.contract_type)} - {listing.bedrooms} bed
        <br/> {listing.address}
+       <br/> {listing.description}
           </Card.Text>
     <div>
       {listing.tags.map((tag) => (

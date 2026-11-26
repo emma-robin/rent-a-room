@@ -51,6 +51,7 @@ CREATE INDEX idx_listings_price ON listings(price_pcm);
 CREATE INDEX idx_listings_location ON listings(latitude, longitude);
 CREATE INDEX idx_listings_user ON listings(user_id);
 
+CREATE TYPE gender AS ENUM ('Male', 'Female','Undeclared');
 CREATE TYPE shift_pattern AS ENUM ('standard_shift', 'nightshift_only', 'rotating_shifts','early_shift', 'late_shift','flexible' );
 CREATE TYPE looking_for AS ENUM ('room', 'person');
 
@@ -58,6 +59,7 @@ CREATE TABLE profiles (
     id              SERIAL PRIMARY KEY,
     user_id         INTEGER NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     bio             TEXT,
+    gender          gender,
     budget_min      NUMERIC(8,2),
     budget_max      NUMERIC(8,2),
     move_in_date    DATE,

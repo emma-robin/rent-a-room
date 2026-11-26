@@ -1,6 +1,8 @@
 {
   "users": [
     { "email": "marieh@gmail.com", "username": "Marie Hall", "type": "propertyholder" },
+     { "email": "janesmith@gmail.com", "username": "Jane Smith", "type": "propertyholder" },
+        { "email": "lisburnestates", "username": "Lisburn Estate Agent", "type": "propertyholder" },
     { "email": "LisburnRd@outlook.co.uk", "username": "Lisburn Road House", "type": "household" },
     { "email": "Stranmillis@outlook.co.uk", "username": "Stranmillis House", "type": "household" },
     { "email": "johndoe@hotmail.com", "username": "John", "type": "individual" },
@@ -79,7 +81,55 @@
       "accepts_benefits": false,
       "legislation_declared":false,
        "house_rules": "Non-smokers preferred. Cats live here. Quiet weekday evenings."
-    }
+    },
+    {
+  "owner_username": "Jane Smith",
+  "listing_type": "propertyholder_property",
+  "contract_type": "fixed_term_twelve_months",
+  "title": "Modern 1-bed apartment near Queen's",
+  "description": "Well-presented one-bedroom apartment close to Queen's University. Ideal for a student or young professional.",
+  "price": 725.00,
+  "address": "22 Botanic Avenue, Belfast",
+  "lat": 54.584900,
+  "lng": -5.930800,
+  "move_in_date": "2027-06-01",
+  "move_out_date": "2028-06-01",
+  "bedrooms": 1,
+  "en_suite": false,
+  "parking": false,
+  "outdoor_space": false,
+  "kitchen_length_m": 3.10,
+  "kitchen_width_m": 2.20,
+  "accepts_pets": false,
+  "accepts_benefits": true,
+  "legislation_declared": true,
+  "house_rules": "No smoking. Quiet hours after 10pm."
+},
+{
+  "owner_username": "Lisburn Estate Agent",
+  "listing_type": "propertyholder_property",
+  "contract_type": "short_let",
+  "title": "Two bed flat Eglantine Avenue",
+  "description": "Spacious two bed flat in Eglantine Avenue. Three month let",
+  "price": 450.00,
+  "address": "35 Eglantine Avenue, Belfast",
+  "lat": 54.584100,
+  "lng": -5.936100,
+  "move_in_date": "2027-06-01",
+  "move_out_date": "2027-09-01",
+  "bedrooms": 2,
+  "en_suite": false,
+  "parking": true,
+  "outdoor_space": true,
+  "kitchen_length_m": 4.50,
+  "kitchen_width_m": 2.80,
+  "bedroom_length_m": 3.60,
+  "bedroom_width_m": 3.10,
+  "accepts_pets": false,
+  "accepts_benefits": false,
+  "legislation_declared": true,
+  "house_rules": "No smoking indoors. Guests welcome"
+}
   ],
         
  "profiles": [
@@ -87,10 +137,11 @@
 
          "user_id":"John",
          "bio":"24, work nights in healthcare, quiet, tidy.",
+         "gender":"Male",
          "budget_min":300.00, 
          "budget_max":500.00, 
          "move_in_date":"2027-05-01",
-          "shift_pattern":"standard 9-5",
+          "shift_pattern":"standard_shift",
           "has_car":false,
          "looking_for":"room"
     },
@@ -98,10 +149,11 @@
 
          "user_id":"Susie",
          "bio":"PhD student, enjoys a healthy social life.",
+         "gender":"Female",
          "budget_min":450.00, 
          "budget_max":600.00, 
          "move_in_date":"2027-06-01",
-          "shift_pattern":"standard 9-5",
+          "shift_pattern":"flexible",
           "has_car":true,
          "looking_for":"room"
     },
@@ -110,7 +162,7 @@
          "user_id":"Lisburn Road House",
          "bio":"Friendly house made up of young male professionals between 22-25. Mixed gender looking for someone who enjoys board games and quiet nights in",
          "move_in_date":"2027-06-01",
-          "shift_pattern":"standard 9-5",
+          "shift_pattern":"standard_shift",
           "has_car":true,
          "looking_for":"person"
     },
@@ -126,6 +178,8 @@
   ],
 "listingTags": [
   { "listing_title": "Bright 2-bed flat",               "tags": ["en-suite", "parking-available", "outdoor-space"] },
+  {  "listing_title": "Modern 1-bed apartment near Queen's",    "tags": ["quiet", "en-suite"] },
+  {  "listing_title": "Spacious two bed flat in Eglantine Avenue. Three month let",    "tags": [ "non-smoker","parking-available", "outdoor-space"] },
   { "listing_title": "Cosy room in friendly flatshare", "tags": ["quiet", "non-smoker"] },
   { "listing_title": "Large room with en-suite",        "tags": ["en-suite", "enjoys-parties", "outdoor-space"] }
 ],

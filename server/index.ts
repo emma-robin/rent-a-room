@@ -60,7 +60,11 @@ if (request.query.enSuite === 'true') {
        conditions.push(`listings.move_in_date <= $${values.length}`);
     }
 
-
+//move-out date
+    if (request.query.moveOutDate) {
+      values.push(request.query.moveOutDate);
+       conditions.push(`listings.move_out_date <= $${values.length}`);
+    }
   //title
     if (request.query.title) {
   values.push(`%${request.query.title}%`);
@@ -236,6 +240,12 @@ if (request.query.enSuite === 'true') {
     if (request.query.profileBio) {
   values.push(`%${request.query.profileBio}%`);
   conditions.push(`profiles.bio ILIKE $${values.length}`);
+     }
+     
+     //gender 
+if (request.query.gender) {
+  values.push(request.query.gender);
+  conditions.push(`profiles.gender = $${values.length}`);
 }
 
   //title
@@ -334,7 +344,7 @@ if (request.query.search) {
 
 const sql = `
   SELECT 
-    listings.*, users.username, profiles.bio, profiles.budget_min, profiles.budget_max,
+    listings.*, users.username, profiles.bio, profiles.budget_min, profiles.budget_max,profiles.gender,
     COALESCE(array_agg(DISTINCT tags.label) FILTER (WHERE tags.label IS NOT NULL), '{}') AS tags
   FROM listings 
   JOIN users ON users.id = listings.user_id
@@ -342,7 +352,7 @@ const sql = `
   LEFT JOIN listing_tags ON listing_tags.listing_id = listings.id
   LEFT JOIN tags ON tags.id = listing_tags.tag_id
   WHERE ${conditions.join(' AND ')}
-  GROUP BY listings.id, users.username, profiles.bio, profiles.budget_min, profiles.budget_max
+  GROUP BY listings.id, users.username, profiles.bio, profiles.budget_min, profiles.budget_max,profiles.gender
 `;
     const listings = await pool.query(sql, values);
     response.json({ status: 'success', data: listings.rows });
@@ -418,6 +428,12 @@ if (request.query.hasCar === 'false') {
     if (request.query.moveInDate) {
       values.push(request.query.moveInDate);
       conditions.push(`profiles.move_in_date <= $${values.length}`);
+    }
+
+//move-out date
+    if (request.query.moveOutDate) {
+      values.push(request.query.moveOutDate);
+      conditions.push(`profiles.move_out_date <= $${values.length}`);
     }
 
     //bio

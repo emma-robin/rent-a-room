@@ -30,6 +30,7 @@ type SharedHome = {
   legislation_declared  : boolean;
   tags: string[];
   bio: string;
+  gender: string;
   budget_min: string;
   budget_max: string;
   shift_pattern: string;
@@ -80,7 +81,8 @@ return (
              <br/> <br/>
           
           <h5>Details</h5>
-          <ul>
+            <ul>
+              <li><strong>Gender of household - {SharedHome.gender}</strong></li>
             <li> Kitchen: Length {SharedHome.kitchen_length_m} m x Width { SharedHome.kitchen_width_m} m</li>
       <li> Bedroom: Length {SharedHome.bedroom_length_m} m x Width { SharedHome.bedroom_width_m} m</li>
             <li>Contract: {contractLabel(SharedHome.contract_type)}</li>

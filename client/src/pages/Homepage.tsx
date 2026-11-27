@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import {Link  } from "react-router-dom";
-import { Col, Row, Button , Container, Tab, Tabs , Form ,Dropdown } from 'react-bootstrap';
+import {Link ,useNavigate } from "react-router-dom";
+import { Col, Row, Button , Container, Tab, Tabs , Form  } from 'react-bootstrap';
 
 
 export default function Homepage() {
+  const navigate = useNavigate();
    const [searchInput, setSearchInput] =  useState('');
    const buildSearchLink = (basePath: string) => {
     const params = new URLSearchParams();
@@ -19,29 +20,26 @@ export default function Homepage() {
       <h2 className="subtitle">
         Whether you're looking to live solo or split a place, find your next home here
       </h2>
-      <Container id="homepageContainer" className="py-3 shadow-lg" data->
+      <Container id="homepageContainer" className="py-3 shadow-lg" >
         <Tabs id="homepage-tab" defaultActiveKey="listings" className="mb-3">
           <Tab className="homepage-tabs" eventKey="listings" title="Properties For Rent">
        <Form>
           <Row className="align-items-center">
-        <Col  xs={7} >
-     <Form.Label>
-  Search: < Form.Control type="text" id="searchbar" className="bg-white text-black"
-  value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
-  
-</Form.Label></Col>
+    <Col xs="auto">
+     <Form.Label className="mb-0"> Search:</Form.Label>
+    </Col>
+    <Col>
+      <Form.Control type="text" id="searchbar" className="bg-white text-black w-100" 
+      value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
+      onKeyDown={(e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    navigate(buildSearchLink('/listings'));
+  }
+}}/>
+     </Col>
  <Col xs="auto" >
-<Dropdown>
-      <Dropdown.Toggle className="ms-3" variant="primary" id="dropdown-custom">
-       Filters
-      </Dropdown.Toggle>
 
-      <Dropdown.Menu id="Dropdown-Menu">
-        <Dropdown.Item >Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
 </Col><Col xs="auto" >
 <Link to={buildSearchLink('/listings')}>
     <Button variant="primary">Find Properties for Rent</Button>
@@ -49,23 +47,42 @@ export default function Homepage() {
        </Col></Row> </Form>
           </Tab>
           <Tab className="homepage-tabs" eventKey="sharedhomes" title="Shared Homes">
-            <label>
-  Search: < Form.Control type="text" id="searchbar" className="bg-white text-black"
-  value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
-</label>
+                  <Row className="align-items-center">
+    <Col xs="auto">
+     <Form.Label className="mb-0"> Search:</Form.Label>
+    </Col>
+    <Col>
+<Form.Control type="text" id="searchbar" className="bg-white text-black w-100" 
+      value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    navigate(buildSearchLink('/sharedhomes'));
+  }
+}}/>
+    </Col> <Col xs="auto">
             <Link to={buildSearchLink('/sharedhomes')}>
-              <Button className="ms-3" variant="secondary">Find Shared Homes</Button>
-            </Link>
+              <Button className="ms-3" variant="primary">Find Shared Homes</Button>
+            </Link></Col></Row>
           </Tab>
           <Tab className="homepage-tabs" eventKey="housemates" title="Find Housemates">
-           <label>
-  Search: < Form.Control type="text" id="searchbar" className="bg-white text-black"
-  value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
-</label>
+       <Row className="align-items-center"><Col xs="auto">
+     <Form.Label className="mb-0"> Search:</Form.Label>
+    </Col>
+    <Col>
+<Form.Control type="text" id="searchbar" className="bg-white text-black w-100" 
+      value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    navigate(buildSearchLink('/housemates'));
+  }
+}}/>
+    </Col> <Col xs="auto">
             <Link to={buildSearchLink('/housemates')}>
            
-              <Button className="ms-3" variant="secondary">Find Housemates</Button>
-            </Link>
+              <Button className="ms-3" variant="primary">Find Housemates</Button>
+           </Link></Col></Row>
           </Tab>
         </Tabs>
       </Container>

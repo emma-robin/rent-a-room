@@ -161,6 +161,7 @@
 
          "user_id":"Lisburn Road House",
          "bio":"Friendly house made up of young male professionals between 22-25. Mixed gender looking for someone who enjoys board games and quiet nights in",
+        "gender":"All Male",
          "move_in_date":"2027-06-01",
           "shift_pattern":"standard_shift",
           "has_car":true,
@@ -170,6 +171,7 @@
 
          "user_id":"Stranmillis House",
          "bio":"A mixed gender all PHD students at QUB and UU looking to rent out one room due to old flatmate deferring for the year. Looking someone who doesn't mind hosting afters",
+         "gender":"Mixed",
          "move_in_date":"2027-06-01",
           "shift_pattern":"flexible",
           "has_car":true,
@@ -179,7 +181,7 @@
 "listingTags": [
   { "listing_title": "Bright 2-bed flat",               "tags": ["en-suite", "parking-available", "outdoor-space"] },
   {  "listing_title": "Modern 1-bed apartment near Queen's",    "tags": ["quiet", "en-suite"] },
-  {  "listing_title": "Spacious two bed flat in Eglantine Avenue. Three month let",    "tags": [ "non-smoker","parking-available", "outdoor-space"] },
+  {  "listing_title": "Two bed flat Eglantine Avenue",    "tags": [ "non-smoker","parking-available", "outdoor-space"] },
   { "listing_title": "Cosy room in friendly flatshare", "tags": ["quiet", "non-smoker"] },
   { "listing_title": "Large room with en-suite",        "tags": ["en-suite", "enjoys-parties", "outdoor-space"] }
 ],

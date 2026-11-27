@@ -5,8 +5,8 @@
   "description": "Express + PostgreSQL + Socket.IO backend for Rent-a-Room",
   "main": "index.js",
   "scripts": {
-  "start": "node --import tsx index.ts",
-  "dev": "tsx watch index.ts"
+    "start": "node --import tsx index.ts",
+    "dev": "tsx watch index.ts"
   },
   "dependencies": {
     "@types/jest": "^30.0.0",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/node": "^26.6.6",
+    "@types/node": "^26.6.11",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.23.15",
